@@ -1,19 +1,4 @@
-/**
- * Copyright 2023 Prof. Ms. Ricardo Leme All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-'use strict' //modo estrito
+'use strict'
 
 
 /**
@@ -27,13 +12,53 @@
 const urlApp = window.location.href.replace(/\/[^\/]*$/, '');
 
 /**
+ * Cria um novo usuário no Firebase.
+ * @param {string} email 
+ * @param {string} senha 
+ * @return {object}
+ */
+function novoUsuario(email, senha) {
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, senha)
+    .then((result) => {
+      console.log(`Aluno Logado: ${JSON.stringify(result.user)}`)
+      window.location.href = `${urlApp}/menu.html`
+    })
+    .catch(error => {
+      console.error(error.code)
+      console.error(error.message)
+      alerta(`Erro: Não foi possível cadastrar o aluno <br> ${errors[error.code]}`, 'danger')
+    })
+}
+
+/**
+ * loginFirebase.
+ * Realiza a autenticação do usuário no Firebase.
+ * @param {string} email 
+ * @param {string} senha 
+ * @return {object} 
+ */
+function loginFirebase(email, senha) {
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(email, senha)
+    .then(result => {
+      console.log(result.user)
+      window.location.href = `${urlApp}/menu.html`
+    })
+    .catch(error => {
+      console.error(error.code)
+      alerta(`Erro: Não foi possível efetuar o login <br> ${errors[error.code]}`, 'danger')
+    })
+}
+
+/**
  * loginGoogle.
  * Realiza a autenticação do usuário utilizando a conta Google do mesmo.
  * @return {object} O usuário logado
  */
 function loginGoogle() {
-  //Não esqueça de adicionar também o endereço 127.0.0.1 em Authentication/Settings no Firebase para poder rodar localmente
-
   const provider = new firebase.auth.GoogleAuthProvider()
   firebase
     .auth()
@@ -57,7 +82,7 @@ function logoutFirebase() {
     .signOut()
     .then(function () {
       window.location.href = `${urlApp}/`
-      localStorage.removeItem('usuarioId') //Remove o id do usuário atual no Local Storage
+      localStorage.removeItem('usuarioId')
     })
     .catch(function (error) {
       alerta(`Erro: Não foi possível efetuar o logout <br> ${errors[error.code]}`, 'danger')
@@ -74,16 +99,13 @@ function verificaLogado() {
     .auth()
     .onAuthStateChanged(user => {
       if (user) {
-        //Salva o id do usuário atual no Local Storage
-        localStorage.setItem('usuarioId', user.uid) 
-        //Salvamos os dados do usuário logado na collection usuarios
+        localStorage.setItem('usuarioId', user.uid)
         salvaDadosUsuario(user.uid, user.displayName, user.email, user.photoURL)
-        //Coloca a foto do usuário ao lado do botáo Logout
-        let imagemUsuario = document.getElementById('imagemUsuario')
-        user.photoURL ? imagemUsuario.innerHTML = `<img src="${user.photoURL}" alt="Foto do Usuário" title="${user.displayName}" class="img rounded-circle pe-2 .d-sm-none" width="48" />`
-                      : imagemUsuario.innerHTML = `<img src="https://robohash.org/${user.email}" alt="Foto do Usuário" title="${user.email}" class="img rounded-circle pe-2" width="48" />`
+        let imagemAluno = document.getElementById('imagemAluno')
+        user.photoURL ? imagemAluno.innerHTML = `<img src="${user.photoURL}" alt="Foto do Aluno" title="${user.displayName}" class="img rounded-circle pe-2 .d-sm-none" width="48" />`
+          : imagemAluno.innerHTML = `<img src="https://robohash.org/${user.email}" alt="Foto do Aluno" title="${user.email}" class="img rounded-circle pe-2" width="48" />`
       } else {
-        console.error('Usuário não logado. Redirecionando...')
+        console.error('Aluno não logado. Redirecionando...')
         window.location.href = `${urlApp}/`
       }
     })
@@ -92,26 +114,21 @@ function verificaLogado() {
 /**
  * salvaDadosUsuario.
  * Salva os dados do usuário corrente
- * @param {integer} id id do usuário
- * @param {string} nome Nome Completo do usuário
- * @param {string} email E-mail do usuário
- * @param {string} imagemUrl URL da imagem do usuário
- * @return {null} Salva o usuário logado na collection usuarios
+ * @param {integer} id 
+ * @param {string} nome 
+ * @param {string} email
+ * @param {string} imagemUrl 
+ * @return {null} 
  */
- function salvaDadosUsuario(id, nome, email, imagemUrl) {
+function salvaDadosUsuario(id, nome, email, imagemUrl) {
   firebase.database().ref('usuarios/' + id).set({
     usuario: nome,
     email: email,
-    imagemPerfil : imagemUrl,
+    imagemPerfil: imagemUrl,
     ultimoAcesso: new Date()
   });
 }
 
-
-/**
- * errors.
- * Constante com a tradução em pt-BR dos principais erros de autenticação
- **/
 const errors = {
   'auth/app-deleted': 'O banco de dados não foi localizado.',
   'auth/expired-action-code': 'O código da ação o ou link expirou.',

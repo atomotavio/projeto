@@ -21,29 +21,33 @@
 </head>
 
 <body class="login">
-    <form id="formLogin">
-        <div class="card p-3">
-            <div class="card-header">
-                <h5 class="card-title"><i class="bi bi-box-arrow-in-right"></i> </i>Login Aluno</h5>
+    <div class="card p-3">
+        <form id="formLogin">
+            <div>
+                <div class="card-header">
+                    <h5 class="card-title"><i class="bi bi-box-arrow-in-right"></i> </i>Login Aluno</h5>
+                </div>
+                <div class="my-3">
+                    <label for="email" class="form-label">E-mail:</label>
+                    <input type="email" class="form-control" id="email" required autofocus>
+                    <div id="emailHelp" class="form-text">Nós nunca vamos compartilhar seu e-mail com ninguém.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="senha" class="form-label">Senha:</label>
+                    <input type="password" class="form-control" id="senha" placeholder="Senha com no mínimo 6 carac."
+                        required>
+                </div>
+                <div id="msgAlerta"></div>
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-success p-2" title="Efetuar o login" id="login">Login</button>
+                    <button type="button" class="btn btn-primary p-2" title="Login com o Google" id="loginGoogle">
+                        <i class="bi bi-google"></i> Logar com o Google</button>
+                </div>
             </div>
-            <div class="my-3">
-                <label for="email" class="form-label">E-mail:</label>
-                <input type="email" class="form-control" id="email" required autofocus>
-                <div id="emailHelp" class="form-text">Nós nunca vamos compartilhar seu e-mail com ninguém.</div>
-            </div>
-            <div class="mb-3">
-                <label for="senha" class="form-label">Senha:</label>
-                <input type="password" class="form-control" id="senha" placeholder="Senha com no mínimo 6 carac."
-                    required>
-            </div>
-            <div id="msgAlerta"></div>
-            <div class="d-grid gap-2 mt-4">
-                <button type="submit" class="btn btn-success p-2" title="Efetuar o login" id="login">Login</button>
-                <button type="button" class="btn btn-primary p-2" title="Login com o Google" id="loginGoogle">
-                    <i class="bi bi-google"></i> Logar com o Google</button>
-            </div>
-        </div>
-    </form>
+        </form>
+        <a href="novo-aluno.html">Ainda não tem uma conta?</a>
+    </div>
+    <div id="mensagemAlerta"></div>
     <!-- Carregando os scripts do Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-database-compat.js"></script>
