@@ -17,6 +17,7 @@ async function obtemDados(collection) {
         cabecalho.insertCell().textContent = 'Área'
         cabecalho.insertCell().textContent = 'Semestre'
         cabecalho.insertCell().textContent = 'Turno'
+        cabecalho.insertCell().textContent = 'Ações'
 
         snapshot.forEach(item => {
             let db = item.ref._delegate._path.pieces_[0]
