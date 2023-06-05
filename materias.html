@@ -44,13 +44,13 @@
       </div>
     </div>
   </nav>
-  <div class="container-fluid p-2 mb-2 text-light text-center bg-warning">
+  <div class="container-fluid p-2 text-light text-center bg-warning">
       <h1>Controle das matérias</h1>
   </div>
   <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-5">
-      <h3 class="text-dark">Cadastro de Materias</h3>
+      <h3 class="text-dark py-2">Cadastro de Materias</h3>
 
       <div id="msgAlerta"></div>
 
@@ -142,15 +142,15 @@
           <div class="form-group">
             <label class="col-md-4 control-label" for="salvar"></label>
             <div class="col-md-8">
-              <button id="btnSalvar" class="btn btn-success" onclick="salvar(event, 'materias')">💾 Salvar</button>
-              <button type="reset" id="limpar" name="limpar" class="btn btn-danger">🧹Limpar</button>
+              <button id="btnSalvar" class="btn btn-success" onclick="salvar(event, 'materias')"><i class="bi bi-plus-square"></i> Adicionar</button>
+              <button type="reset" id="limpar" name="limpar" class="btn btn-danger"><i class="bi bi-trash"></i> Limpar</button>
             </div>
           </div>
         </fieldset>
       </form>
     </div>
     <div class="col-md-6">
-      <h3 class="text-dark">Listagem de Materias</h3>
+      <h3 class="text-dark py-2">Listagem de Materias</h3>
       <button class="btn" type="button" disabled id="carregandoDados">
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         Carregando os dados...
